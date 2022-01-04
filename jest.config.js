@@ -7,6 +7,7 @@
   testEnvironment: 'jsdom',
   coveragePathIgnorePatterns: [
     "/node_modules/",
-    "/data/"
+    "/data/",
+    "/tests/"
   ]
 }
