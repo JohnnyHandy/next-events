@@ -4,4 +4,8 @@
     '^@pages(.*)$': '<rootDir>/pages$1',
   },
   testEnvironment: 'jsdom',
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/data/"
+  ]
 }
