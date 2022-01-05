@@ -1,13 +1,11 @@
-import classes from './event-content.module.css';
+import classes from './event-content.module.css'
 
-function EventContent(props: {
-  children: React.ReactNode
-}) {
+function EventContent(props: { children: React.ReactNode }) {
   return (
-    <section data-testid='event-content' className={classes.content}>
+    <section data-testid="event-content" className={classes.content}>
       {props.children}
     </section>
-  );
+  )
 }
 
-export default EventContent;
+export default EventContent

@@ -5,9 +5,7 @@ import EventContent from '../components/event-detail/event-content'
 
 describe('Testing event-content.tsx', () => {
   it('Should render the event content component', () => {
-    render(<EventContent>
-
-    </EventContent>)
+    render(<EventContent>Mock</EventContent>)
     const component = screen.getByTestId('event-content')
 
     expect(component).toBeInTheDocument()
