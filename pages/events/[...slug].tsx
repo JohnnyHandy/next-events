@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import EventList from '../../components/events/event-list'
 import ResultsTitle from '../../components/events/results-title'
 import Button from '../../components/ui/button'
-import ErrorAlert from 'components/ui/error-alert'
+import ErrorAlert from '../../components/ui/error-alert'
 
 function FilteredEventsPage() {
   const router = useRouter()
