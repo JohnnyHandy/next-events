@@ -4,9 +4,9 @@ import { render, screen } from '@testing-library/react'
 import HomePage from '../pages/index'
 
 describe('Testing homepage Index.tsx', () => {
-  it('Should render the home page title', () => {
+  it('Should render home page', () => {
     render(<HomePage />)
-    const title = screen.getByText(/The Home Page/)
+    const title = screen.getByTestId('home')
 
     expect(title).toBeInTheDocument()
   })
