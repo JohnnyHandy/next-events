@@ -3,20 +3,29 @@
 import { screen } from '@testing-library/react'
 import { render } from './test-utils'
 import FilteredEvents from '../pages/events/[...slug]'
+import fetchMock from 'jest-fetch-mock'
 
 describe('Testing homepage [...slug].tsx', () => {
-  it('Should render loading message on first render', () => {
+  beforeEach(() => {
+    fetchMock.resetMocks()
+  })
+
+
+  it('Should render loading message', () => {
+    fetchMock.mockResponseOnce(JSON.stringify({ e1: { date: '01-01-2022', description: "desccription", image: "image", isFeatured: false, location: "address", title: "title" }  }))
+
     render(<FilteredEvents />, {
       router: {
         pathname: '/events/',
-        query: {},
+        query: {
+          slug: ['2021', '1'],
+        },
       },
     })
     const component = screen.getByTestId('loading-filtered-events')
 
     expect(component).toBeInTheDocument()
   })
-
   it('Should render warning message for invalid filter params', () => {
     render(<FilteredEvents />, {
       router: {
@@ -30,7 +39,6 @@ describe('Testing homepage [...slug].tsx', () => {
 
     expect(component).toBeInTheDocument()
   })
-
   it('Should render warning message if no filtered events were found', () => {
     render(<FilteredEvents />, {
       router: {
@@ -49,11 +57,13 @@ describe('Testing homepage [...slug].tsx', () => {
       router: {
         pathname: '/events/',
         query: {
-          slug: ['2021', '5'],
+          slug: ['2022', '1'],
         },
       },
     })
     const component = screen.getByTestId('filtered-events')
     expect(component).toBeInTheDocument()
+
   })
+
 })

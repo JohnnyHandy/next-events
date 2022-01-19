@@ -1,17 +1,10 @@
 ﻿import EventItem from './event-item'
+import { Event } from '../../helpers/api-util'
 
 import classes from './event-list.module.css'
 
 function EventList(props: {
-  items: {
-    id: string
-    title: string
-    description: string
-    location: string
-    date: string
-    image: string
-    isFeatured: boolean
-  }[]
+  items: Event[]
 }) {
   const { items } = props
   return (

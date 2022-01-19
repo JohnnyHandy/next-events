@@ -5,5 +5,5 @@
     '^.+\\.(css|less)$': '<rootDir>/config/CSSStub.js',
   },
   testEnvironment: 'jsdom',
-  coveragePathIgnorePatterns: ['/node_modules/', '/data/', '/tests/'],
+  coveragePathIgnorePatterns: ['/node_modules/', '/data/', '/tests/', '/helpers/'],
 }
