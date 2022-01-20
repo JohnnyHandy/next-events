@@ -1,6 +1,7 @@
 ﻿import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
+import Head from 'next/head'
 
 import EventList from '../../components/events/event-list'
 import ResultsTitle from '../../components/events/results-title'
@@ -27,12 +28,19 @@ function FilteredEventsPage() {
     setLoadedEvents(events as Event[])
   }, [data])
 
+  let pageHeadData =(
+    <Head>
+      <title>Filtered Events</title>
+      <meta name='description' content={'A list of filtered events'} />
+    </Head>
+  )
 
 
   const filteredYear = filterData[0]
   const filteredMonth = filterData[1]
   const numYear = +filteredYear
   const numMonth = +filteredMonth
+
 
 
   if (
@@ -45,6 +53,7 @@ function FilteredEventsPage() {
   ) {
     return (
       <>
+        {pageHeadData}
         <ErrorAlert>
           <p data-testid="invalid-filter-params">
             Invalid filter. Please adjust the values.
@@ -57,7 +66,12 @@ function FilteredEventsPage() {
     )
   }
 
-  
+  pageHeadData = (
+    <Head>
+      <title> Filtered events </title>
+      <meta name='description' content={`Àll events for ${numMonth}/${numYear}`} />
+    </Head>
+  )
 
   const filteredEvents = loadedEvents.filter((event) => {
     const eventDate = new Date(event.date)
@@ -69,6 +83,7 @@ function FilteredEventsPage() {
   if (!filteredEvents || filteredEvents.length === 0 && data !== undefined) {
     return (
       <>
+        {pageHeadData}
         <ErrorAlert>
           <p data-testid="no-events-found">No events found.</p>
         </ErrorAlert>
@@ -81,15 +96,19 @@ function FilteredEventsPage() {
 
   if (data == undefined) {
     return (
-      <p data-testid="loading-filtered-events" className="center">
+      <>
+        {pageHeadData}
+        <p data-testid="loading-filtered-events" className="center">
         Loading...
       </p>
+      </>
     )
   }
 
   const date = new Date(numYear as number, numMonth as number - 1)
   return (
     <div data-testid="filtered-events">
+      {pageHeadData}
       <ResultsTitle date={date} />
       <EventList items={filteredEvents} />
     </div>
