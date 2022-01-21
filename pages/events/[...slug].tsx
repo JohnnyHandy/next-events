@@ -9,6 +9,7 @@ import Button from '../../components/ui/button'
 import ErrorAlert from '../../components/ui/error-alert'
 import { Event } from '../../helpers/api-util'
 
+
 function FilteredEventsPage() {
   const [loadedEvents, setLoadedEvents] = useState<Event[]>([])
   const router = useRouter()
@@ -39,8 +40,8 @@ function FilteredEventsPage() {
     </Head>
   )
 
-  const filteredYear = filterData[0]
-  const filteredMonth = filterData[1]
+  const filteredYear = filterData && filterData[0]
+  const filteredMonth = filterData && filterData[1]
   const numYear = +filteredYear
   const numMonth = +filteredMonth
 
