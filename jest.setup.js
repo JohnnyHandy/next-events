@@ -1,4 +1,4 @@
 ﻿require('@testing-library/jest-dom')
-const fetchMock = require("jest-fetch-mock");
+const fetchMock = require('jest-fetch-mock')
 
-fetchMock.enableMocks();
+fetchMock.enableMocks()

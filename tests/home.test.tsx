@@ -16,8 +16,19 @@ describe('Testing homepage Index.tsx', () => {
     expect(title).toBeInTheDocument()
   })
 
-  it("Should call api on getStaticProps", async () => {
-    fetchMock.mockResponseOnce(JSON.stringify({ e1: { date: '01-01-2020', description: "desccription", image: "image", isFeatured: false, location: "address", title: "title" }  }))
+  it('Should call api on getStaticProps', async () => {
+    fetchMock.mockResponseOnce(
+      JSON.stringify({
+        e1: {
+          date: '01-01-2020',
+          description: 'desccription',
+          image: 'image',
+          isFeatured: false,
+          location: 'address',
+          title: 'title',
+        },
+      })
+    )
     await getStaticProps()
     expect(fetch).toHaveBeenCalled()
   })

@@ -4,7 +4,10 @@ import { screen } from '@testing-library/react'
 import { DUMMY_EVENTS } from '../data/dummy-data'
 import { render } from './test-utils'
 import fetchMock from 'jest-fetch-mock'
-import EventDetails, { getStaticProps, getStaticPaths } from '../pages/events/[eventId]'
+import EventDetails, {
+  getStaticProps,
+  getStaticPaths,
+} from '../pages/events/[eventId]'
 
 describe('Testing homepage [eventId].tsx', () => {
   beforeEach(() => {
@@ -26,23 +29,44 @@ describe('Testing homepage [eventId].tsx', () => {
 
     expect(message).toBeInTheDocument()
   })
-  it("Should call api on getStaticProps", async () => {
+  it('Should call api on getStaticProps', async () => {
     const context = {
       params: {
-        eventId: 'e1'
-      }
+        eventId: 'e1',
+      },
     }
-    fetchMock.mockResponseOnce(JSON.stringify({ e1: { date: '01-01-2020', description: "desccription", image: "image", isFeatured: false, location: "address", title: "title" }  }))
+    fetchMock.mockResponseOnce(
+      JSON.stringify({
+        e1: {
+          date: '01-01-2020',
+          description: 'desccription',
+          image: 'image',
+          isFeatured: false,
+          location: 'address',
+          title: 'title',
+        },
+      })
+    )
     const response = await getStaticProps(context)
     expect(fetch).toHaveBeenCalled()
-    expect(response).toHaveProperty(["props"])
+    expect(response).toHaveProperty(['props'])
   })
 
-  it("Should call api on getStaticPaths", async () => {
-    fetchMock.mockResponseOnce(JSON.stringify({ e1: { date: '01-01-2020', description: "desccription", image: "image", isFeatured: false, location: "address", title: "title" }  }))
+  it('Should call api on getStaticPaths', async () => {
+    fetchMock.mockResponseOnce(
+      JSON.stringify({
+        e1: {
+          date: '01-01-2020',
+          description: 'desccription',
+          image: 'image',
+          isFeatured: false,
+          location: 'address',
+          title: 'title',
+        },
+      })
+    )
     const response = await getStaticPaths()
     expect(fetch).toHaveBeenCalled()
-    expect(response).toHaveProperty(["paths"])
-
+    expect(response).toHaveProperty(['paths'])
   })
 })

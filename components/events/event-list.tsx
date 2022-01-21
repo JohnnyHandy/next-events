@@ -3,9 +3,7 @@ import { Event } from '../../helpers/api-util'
 
 import classes from './event-list.module.css'
 
-function EventList(props: {
-  items: Event[]
-}) {
+function EventList(props: { items: Event[] }) {
   const { items } = props
   return (
     <ul className={classes.list} data-testid="event-list">

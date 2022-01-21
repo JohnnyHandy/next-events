@@ -6,9 +6,7 @@ import EventList from '../../components/events/event-list'
 import EventsSearch from '../../components/events/events-search'
 import { GetStaticProps } from 'next'
 
-function AllEventsPage(props: {
-  events: Event[]
-}) {
+function AllEventsPage(props: { events: Event[] }) {
   const { events } = props
   const router = useRouter()
 
@@ -19,8 +17,8 @@ function AllEventsPage(props: {
   return (
     <div data-testid="all-events">
       <Head>
-          <title> All events </title>
-          <meta name='description' content='Find the perfect events for you!' />
+        <title> All events </title>
+        <meta name="description" content="Find the perfect events for you!" />
       </Head>
       <EventsSearch onSearch={findEventsHandler} />
       <EventList items={events} />
@@ -34,7 +32,7 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       events: events,
     },
-    revalidate: 60
+    revalidate: 60,
   }
 }
 

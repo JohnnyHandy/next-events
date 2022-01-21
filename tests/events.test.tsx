@@ -33,15 +33,26 @@ describe('Testing EventsPage index.tsx', () => {
     expect(mockRouter.push).toHaveBeenCalled()
   })
 
-  it("Should call api on getStaticProps", async () => {
+  it('Should call api on getStaticProps', async () => {
     const context = {
       params: {
-        eventId: 'e1'
-      }
+        eventId: 'e1',
+      },
     }
-    fetchMock.mockResponseOnce(JSON.stringify({ e1: { date: '01-01-2020', description: "desccription", image: "image", isFeatured: false, location: "address", title: "title" }  }))
+    fetchMock.mockResponseOnce(
+      JSON.stringify({
+        e1: {
+          date: '01-01-2020',
+          description: 'desccription',
+          image: 'image',
+          isFeatured: false,
+          location: 'address',
+          title: 'title',
+        },
+      })
+    )
     const response = await getStaticProps(context)
     expect(fetch).toHaveBeenCalled()
-    expect(response).toHaveProperty(["props"])
+    expect(response).toHaveProperty(['props'])
   })
 })

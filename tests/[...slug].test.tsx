@@ -10,9 +10,19 @@ describe('Testing homepage [...slug].tsx', () => {
     fetchMock.resetMocks()
   })
 
-
   it('Should render loading message', () => {
-    fetchMock.mockResponseOnce(JSON.stringify({ e1: { date: '01-01-2022', description: "desccription", image: "image", isFeatured: false, location: "address", title: "title" }  }))
+    fetchMock.mockResponseOnce(
+      JSON.stringify({
+        e1: {
+          date: '01-01-2022',
+          description: 'desccription',
+          image: 'image',
+          isFeatured: false,
+          location: 'address',
+          title: 'title',
+        },
+      })
+    )
 
     render(<FilteredEvents />, {
       router: {
@@ -63,7 +73,5 @@ describe('Testing homepage [...slug].tsx', () => {
     })
     const component = screen.getByTestId('filtered-events')
     expect(component).toBeInTheDocument()
-
   })
-
 })
