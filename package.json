@@ -13,8 +13,10 @@
   "dependencies": {
     "jest": "^27.4.5",
     "next": "12.0.7",
+    "next-page-tester": "^0.30.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "swr": "^1.1.2"
   },
   "husky": {
     "hooks": {
@@ -36,6 +38,7 @@
     "eslint-config-next": "12.0.7",
     "eslint-config-prettier": "^8.3.0",
     "husky": "^4.3.8",
+    "jest-fetch-mock": "^3.0.3",
     "prettier": "^2.5.1",
     "semantic-release": "^18.0.1",
     "typescript": "4.5.4"
