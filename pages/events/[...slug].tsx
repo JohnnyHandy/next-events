@@ -9,7 +9,6 @@ import Button from '../../components/ui/button'
 import ErrorAlert from '../../components/ui/error-alert'
 import { Event } from '../../helpers/api-util'
 
-
 function FilteredEventsPage() {
   const [loadedEvents, setLoadedEvents] = useState<Event[]>([])
   const router = useRouter()
