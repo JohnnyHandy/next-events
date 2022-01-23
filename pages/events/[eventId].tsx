@@ -6,6 +6,7 @@ import EventSummary from '../../components/event-detail/event-summary'
 import EventLogistics from '../../components/event-detail/event-logistics'
 import EventContent from '../../components/event-detail/event-content'
 import ErrorAlert from '../../components/ui/error-alert'
+import Comments from '../../components/input/comments'
 
 function EventDetailsPage(props: { selectedEvent: Event | undefined }) {
   const { selectedEvent: event } = props
@@ -34,6 +35,7 @@ function EventDetailsPage(props: { selectedEvent: Event | undefined }) {
       <EventContent>
         <p>{event.description}</p>
       </EventContent>
+      <Comments eventId={event.id} />
     </div>
   )
 }
