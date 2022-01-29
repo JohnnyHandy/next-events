@@ -5,12 +5,12 @@ import CommentList from '../components/input/comment-list'
 
 const dummyList = [
   {
-    id: 'c1',
+    _id: 'c1',
     name: 'Roger',
     text: 'A first comment',
   },
   {
-    id: 'c2',
+    _id: 'c2',
     name: 'Roger',
     text: 'A second comment',
   },

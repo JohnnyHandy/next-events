@@ -37,7 +37,7 @@ function Comments(props: { eventId: string }) {
       },
     })
       .then((res) => res.json())
-      .then((data) => console.log('data', data))
+      // .then((data) => console.log('data', data))
   }
 
   return (

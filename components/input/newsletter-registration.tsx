@@ -7,15 +7,13 @@ function NewsletterRegistration() {
   function registrationHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const enteredEmail = emailInputRef?.current?.value
-    // fetch user input (state or refs)
-    // optional: validate input
-    // send valid data to API
+
     fetch('/api/newsletter', {
       method: 'POST',
       body: JSON.stringify({ email: enteredEmail }),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      // .then((data) => console.log(data))
   }
 
   return (

@@ -1,10 +1,21 @@
 ﻿import type { NextApiRequest, NextApiResponse } from 'next'
+import { MongoClient, ObjectId } from 'mongodb'
+import { connectDatabase, insertDocument, getAllDocuments } from '../../../helpers/db-util'
 
-function handler(req: NextApiRequest, res: NextApiResponse) {
-  // const eventId = req.query.eventId;
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const eventId = req.query.eventId as string
+
+  let client
+  try {
+    client = await connectDatabase()
+  } catch (error) {
+    res.status(500).json({ message: 'Connecting to the database failed!' })
+    return
+  }
 
   if (req.method === 'POST') {
-    const { email, name, text } = JSON.parse(req.body)
+    const parsedBody = req.body
+    const { email, name, text } = parsedBody
     if (
       !email.includes('@') ||
       !name ||
@@ -13,35 +24,45 @@ function handler(req: NextApiRequest, res: NextApiResponse) {
       text.trim() === ''
     ) {
       res.status(422).json({ message: 'Invalid input.' })
+      client?.close()
       return
     }
-    const newComment = {
-      id: new Date().toISOString(),
+    const newComment : {
+      email: string
+      name: string
+      text: string
+      eventId: string
+      _id?: ObjectId
+    } = {
       email,
       name,
       text,
+      eventId
     }
-    console.log(newComment)
+    try {
+      const result = await insertDocument(client as MongoClient, 'comments', newComment)
+      newComment._id = result?.insertedId
+      res.status(201).json({ message: 'Added comment.', comment: newComment })  
+    } catch (error) {
+      res.status(500).json({ message: 'Inserting comment failed!' })
+    }
 
-    res.status(201).json({ message: 'Added comment.', comment: newComment })
   }
 
   if (req.method === 'GET') {
-    const dummyList = [
-      {
-        id: 'c1',
-        name: 'Roger',
-        text: 'A first comment',
-      },
-      {
-        id: 'c2',
-        name: 'Roger',
-        text: 'A second comment',
-      },
-    ]
+    try {
+      const documents = await getAllDocuments(client as MongoClient, 'comments', {_id: -1})
+      res.status(200).json({ comments: documents })
 
-    res.status(200).json({ comments: dummyList })
+    } catch(error) {
+      console.error('error', error)
+      res.status(500).json({ message: 'Getting comments failed!' })
+    }
+    client?.close()
+
   }
+
+
 }
 
 export default handler
