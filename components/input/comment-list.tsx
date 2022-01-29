@@ -2,7 +2,7 @@
 
 function CommentList(props: {
   comments: {
-    id: string
+    _id: string
     text: string
     name: string
   }[]
@@ -13,7 +13,7 @@ function CommentList(props: {
       {/* Render list of comments - fetched from API */}
       {comments.map((comment) => {
         return (
-          <li key={comment.id}>
+          <li key={comment._id}>
             <p>{comment.text}</p>
             <div>By {comment.name}</div>
           </li>

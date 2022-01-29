@@ -35,9 +35,8 @@ function Comments(props: { eventId: string }) {
       headers: {
         'Content-Type': 'application/json',
       },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log('data', data))
+    }).then((res) => res.json())
+    // .then((data) => console.log('data', data))
   }
 
   return (

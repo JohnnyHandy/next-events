@@ -1,13 +1,15 @@
 ﻿/* eslint-disable @typescript-eslint/ban-ts-comment */
-import type { NextApiRequest, NextApiResponse } from 'next'
 
-import newsletter from '../../pages/api/newsletter'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import {
   createMocks as _createMocks,
   Mocks,
   RequestOptions,
   ResponseOptions,
 } from 'node-mocks-http'
+import { MongoClient } from 'mongodb'
+
+import newsletter from '../../pages/api/newsletter'
 
 const createMocks = _createMocks as (
   reqOptions?: RequestOptions,
@@ -15,7 +17,11 @@ const createMocks = _createMocks as (
   // @ts-ignore: Fixing this: https://github.com/howardabrams/node-mocks-http/issues/245
 ) => Mocks<NextApiRequest, NextApiResponse>
 describe('Test responses for newsletter api', () => {
-  it('Should return status 201 with invalid request body', async () => {
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  it('Should return status 500 on failure to connect to database', async () => {
     const { req, res } = createMocks({
       method: 'POST',
       //@ts-ignore
@@ -23,7 +29,36 @@ describe('Test responses for newsletter api', () => {
         email: 'abc@email.com',
       }),
     })
+    const connectSpy = jest
+      .spyOn(MongoClient, 'connect')
+      //@ts-ignore
+      .mockRejectedValueOnce(new Error())
     await newsletter(req, res)
+    expect(connectSpy).toHaveBeenCalled()
+    expect(res._getStatusCode()).toBe(500)
+  })
+
+  it('Should return status 201 with valid request body', async () => {
+    const { req, res } = createMocks({
+      method: 'POST',
+      //@ts-ignore
+      body: JSON.stringify({
+        email: 'abc@email.com',
+      }),
+    })
+    const insertOne = jest.fn().mockResolvedValueOnce({ acknowleged: true })
+    const collection = jest.fn().mockReturnValueOnce({ insertOne })
+    //@ts-ignore
+    const connectSpy = jest
+      .spyOn(MongoClient, 'connect')
+      .mockResolvedValueOnce({
+        //@ts-ignore
+        db: jest.fn().mockReturnValueOnce({ collection }),
+        //@ts-ignore
+        close: jest.fn(),
+      })
+    await newsletter(req, res)
+    expect(connectSpy).toHaveBeenCalled()
     expect(res._getStatusCode()).toBe(201)
     expect(JSON.parse(res._getData())).toEqual(
       expect.objectContaining({
@@ -47,5 +82,29 @@ describe('Test responses for newsletter api', () => {
         message: 'Invalid email address',
       })
     )
+  })
+
+  it('Should return status 500 on failure to insert item to database', async () => {
+    const { req, res } = createMocks({
+      method: 'POST',
+      //@ts-ignore
+      body: JSON.stringify({
+        email: 'abc@email.com',
+      }),
+    })
+    const insertOne = jest.fn().mockRejectedValueOnce(new Error())
+    const collection = jest.fn().mockReturnValueOnce({ insertOne })
+    //@ts-ignore
+    const connectSpy = jest
+      .spyOn(MongoClient, 'connect')
+      .mockResolvedValueOnce({
+        //@ts-ignore
+        db: jest.fn().mockReturnValueOnce({ collection }),
+        //@ts-ignore
+        close: jest.fn(),
+      })
+    await newsletter(req, res)
+    expect(connectSpy).toHaveBeenCalled()
+    expect(res._getStatusCode()).toBe(500)
   })
 })
