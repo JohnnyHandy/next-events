@@ -11,9 +11,8 @@ function NewsletterRegistration() {
     fetch('/api/newsletter', {
       method: 'POST',
       body: JSON.stringify({ email: enteredEmail }),
-    })
-      .then((response) => response.json())
-      // .then((data) => console.log(data))
+    }).then((response) => response.json())
+    // .then((data) => console.log(data))
   }
 
   return (

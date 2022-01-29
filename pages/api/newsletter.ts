@@ -11,7 +11,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   let client
   try {
     client = await connectDatabase()
-
   } catch (error) {
     res.status(500).json({ message: 'Connecting to the database failed!' })
     return
@@ -19,8 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     await insertDocument(client, 'newsletter', { email: userEmail })
-
-  } catch(error) {
+  } catch (error) {
     console.error('error', error)
     res.status(500).json({ message: 'Inserting data failed!' })
     return
@@ -29,7 +27,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   client.close()
 
   res.status(201).json({ message: 'Signed up!' })
-
 }
 
 export default handler

@@ -16,7 +16,6 @@ const createMocks = _createMocks as (
   // @ts-ignore: Fixing this: https://github.com/howardabrams/node-mocks-http/issues/245
 ) => Mocks<NextApiRequest, NextApiResponse>
 describe('Test responses for comments eventId api', () => {
-
   beforeEach(() => {
     jest.resetAllMocks()
   })
@@ -31,7 +30,10 @@ describe('Test responses for comments eventId api', () => {
       },
     })
     //@ts-ignore
-    const connectSpy = jest.spyOn(MongoClient, 'connect').mockRejectedValueOnce(new Error)
+    const connectSpy = jest
+      .spyOn(MongoClient, 'connect')
+      //@ts-ignore
+      .mockRejectedValueOnce(new Error())
 
     await handler(req, res)
     expect(connectSpy).toHaveBeenCalled()
@@ -50,7 +52,14 @@ describe('Test responses for comments eventId api', () => {
     const insertOne = jest.fn().mockResolvedValueOnce({ acknowleged: true })
     const collection = jest.fn().mockReturnValueOnce({ insertOne })
     //@ts-ignore
-    const connectSpy = jest.spyOn(MongoClient, 'connect').mockResolvedValueOnce({ db: jest.fn().mockReturnValueOnce({ collection }), close: jest.fn() })
+    const connectSpy = jest
+      .spyOn(MongoClient, 'connect')
+      .mockResolvedValueOnce({
+        //@ts-ignore
+        db: jest.fn().mockReturnValueOnce({ collection }),
+        //@ts-ignore
+        close: jest.fn(),
+      })
 
     await handler(req, res)
     expect(connectSpy).toHaveBeenCalled()
@@ -71,10 +80,17 @@ describe('Test responses for comments eventId api', () => {
         text: 'text',
       },
     })
-    const insertOne = jest.fn().mockRejectedValueOnce(new Error)
+    const insertOne = jest.fn().mockRejectedValueOnce(new Error())
     const collection = jest.fn().mockReturnValueOnce({ insertOne })
     //@ts-ignore
-    const connectSpy = jest.spyOn(MongoClient, 'connect').mockResolvedValueOnce({ db: jest.fn().mockReturnValueOnce({ collection }), close: jest.fn() })
+    const connectSpy = jest
+      .spyOn(MongoClient, 'connect')
+      .mockResolvedValueOnce({
+        //@ts-ignore
+        db: jest.fn().mockReturnValueOnce({ collection }),
+        //@ts-ignore
+        close: jest.fn(),
+      })
 
     await handler(req, res)
     expect(connectSpy).toHaveBeenCalled()
@@ -106,7 +122,14 @@ describe('Test responses for comments eventId api', () => {
     const find = jest.fn().mockReturnValueOnce({ sort })
     const collection = jest.fn().mockReturnValueOnce({ find })
     //@ts-ignore
-    const connectSpy = jest.spyOn(MongoClient, 'connect').mockResolvedValueOnce({ db: jest.fn().mockReturnValueOnce({ collection }), close: jest.fn() })
+    const connectSpy = jest
+      .spyOn(MongoClient, 'connect')
+      .mockResolvedValueOnce({
+        //@ts-ignore
+        db: jest.fn().mockReturnValueOnce({ collection }),
+        //@ts-ignore
+        close: jest.fn(),
+      })
 
     await handler(req, res)
     expect(connectSpy).toHaveBeenCalled()
@@ -114,18 +137,23 @@ describe('Test responses for comments eventId api', () => {
   })
 
   it('Should return status 500 on failure to get comments', async () => {
-
     const { req, res } = createMocks({
       method: 'GET',
     })
 
-    const find = jest.fn().mockRejectedValueOnce(new Error)
+    const find = jest.fn().mockRejectedValueOnce(new Error())
     const collection = jest.fn().mockReturnValueOnce({ find })
     //@ts-ignore
-    const connectSpy = jest.spyOn(MongoClient, 'connect').mockResolvedValueOnce({ db: jest.fn().mockReturnValueOnce({ collection }), close: jest.fn() })
+    const connectSpy = jest
+      .spyOn(MongoClient, 'connect')
+      .mockResolvedValueOnce({
+        //@ts-ignore
+        db: jest.fn().mockReturnValueOnce({ collection }),
+        //@ts-ignore
+        close: jest.fn(),
+      })
     await handler(req, res)
     expect(connectSpy).toHaveBeenCalled()
     expect(res._getStatusCode()).toBe(500)
-
   })
 })

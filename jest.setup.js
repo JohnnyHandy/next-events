@@ -7,5 +7,3 @@ dotenv.config({ path: '.env.local' })
 global.TextEncoder = TextEncoder
 global.TextDecoder = TextDecoder
 fetchMock.enableMocks()
-
-

@@ -1,6 +1,10 @@
 ﻿import type { NextApiRequest, NextApiResponse } from 'next'
 import { MongoClient, ObjectId } from 'mongodb'
-import { connectDatabase, insertDocument, getAllDocuments } from '../../../helpers/db-util'
+import {
+  connectDatabase,
+  insertDocument,
+  getAllDocuments,
+} from '../../../helpers/db-util'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const eventId = req.query.eventId as string
@@ -27,7 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       client?.close()
       return
     }
-    const newComment : {
+    const newComment: {
       email: string
       name: string
       text: string
@@ -37,32 +41,35 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       email,
       name,
       text,
-      eventId
+      eventId,
     }
     try {
-      const result = await insertDocument(client as MongoClient, 'comments', newComment)
+      const result = await insertDocument(
+        client as MongoClient,
+        'comments',
+        newComment
+      )
       newComment._id = result?.insertedId
-      res.status(201).json({ message: 'Added comment.', comment: newComment })  
+      res.status(201).json({ message: 'Added comment.', comment: newComment })
     } catch (error) {
       res.status(500).json({ message: 'Inserting comment failed!' })
     }
-
   }
 
   if (req.method === 'GET') {
     try {
-      const documents = await getAllDocuments(client as MongoClient, 'comments', {_id: -1})
+      const documents = await getAllDocuments(
+        client as MongoClient,
+        'comments',
+        { _id: -1 }
+      )
       res.status(200).json({ comments: documents })
-
-    } catch(error) {
+    } catch (error) {
       console.error('error', error)
       res.status(500).json({ message: 'Getting comments failed!' })
     }
     client?.close()
-
   }
-
-
 }
 
 export default handler
