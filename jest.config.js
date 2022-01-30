@@ -10,5 +10,6 @@
     '/data/',
     '/tests/',
     '/helpers/',
+    '/store/',
   ],
 }
