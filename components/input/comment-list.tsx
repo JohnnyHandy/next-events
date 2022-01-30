@@ -11,7 +11,7 @@ function CommentList(props: {
   return (
     <ul data-testid="comment-list" className={classes.comments}>
       {/* Render list of comments - fetched from API */}
-      {comments.map((comment) => {
+      {comments?.map((comment) => {
         return (
           <li key={comment._id}>
             <p>{comment.text}</p>

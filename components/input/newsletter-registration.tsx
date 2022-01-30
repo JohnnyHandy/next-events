@@ -1,18 +1,38 @@
-﻿import { useRef } from 'react'
+﻿import { useRef, useContext } from 'react'
 import classes from './newsletter-registration.module.css'
+import NotificationContext from '../../store/notification-context'
 
 function NewsletterRegistration() {
   const emailInputRef = useRef<HTMLInputElement>(null)
+  const notificationCtx = useContext(NotificationContext)
 
   function registrationHandler(event: React.FormEvent<HTMLFormElement>) {
+    notificationCtx.showNotification({
+      title: 'Signing Up',
+      message: 'Registering for newsletter.',
+      status: 'pending',
+    })
     event.preventDefault()
     const enteredEmail = emailInputRef?.current?.value
 
     fetch('/api/newsletter', {
       method: 'POST',
       body: JSON.stringify({ email: enteredEmail }),
-    }).then((response) => response.json())
-    // .then((data) => console.log(data))
+    })
+      .then(() => {
+        notificationCtx.showNotification({
+          title: 'Success!',
+          message: 'Successfully registered for newsletter.',
+          status: 'success',
+        })
+      })
+      .catch(() => {
+        notificationCtx.showNotification({
+          title: 'Error!',
+          message: 'Something went wrong!',
+          status: 'error',
+        })
+      })
   }
 
   return (
@@ -25,6 +45,7 @@ function NewsletterRegistration() {
         <div className={classes.control}>
           <input
             ref={emailInputRef}
+            data-testid="input-email"
             type="email"
             id="email"
             placeholder="Your email"
